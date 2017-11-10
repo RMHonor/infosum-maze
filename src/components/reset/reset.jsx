@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 
 import changeMaze from '../../actions/change-maze';
 
+import './reset.scss';
+
 const Reset = props => console.log(props) || (
-  <button onClick={() => props.reset(props.selectedMaze)}>Reset</button>
+  <button className="reset-button" onClick={() => props.reset(props.selectedMaze)}>Reset</button>
 );
 
 function mapStateToProps({ selectedMaze }) {

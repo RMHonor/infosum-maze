@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import changeMaze from '../../actions/change-maze';
 
+import './maze-selector.scss';
+
 class MazeSelector extends Component {
   constructor(props) {
     super(props);
@@ -17,8 +19,8 @@ class MazeSelector extends Component {
 
   render() {
     return (
-      <label>Select a maze:
-        <select onChange={this.changeMaze}>
+      <label className="maze-selector">Select a maze:<br/>
+        <select className="maze-selector__select" onChange={this.changeMaze}>
           <option value="defaultMaze">Default</option>
           <option value="boxMaze">Box pushing</option>
         </select>
