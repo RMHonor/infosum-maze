@@ -1,7 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 
-ReactDOM.render(
+render(
   <div>Epic maze game</div>,
   document.querySelector('#root'),
 );
