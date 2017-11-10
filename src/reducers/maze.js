@@ -52,13 +52,13 @@ function movePlayer(state, currentCoords, xDiff, yDiff){
   const newState = copyMaze(state);
 
   switch (state[currentCoords.x + xDiff][currentCoords.y + yDiff]){
-    case 'X':
+    case 'X': //exit
       return 'Victory!';
-    case ' ':
+    case ' ': //free space
       newState[currentCoords.x][currentCoords.y] = ' ';
       newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'P';
       return newState;
-    case 'B':
+    case 'B': //box square
       if (newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] === ' '){
         newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] = 'B';
         newState[currentCoords.x][currentCoords.y] = ' ';
