@@ -24,7 +24,7 @@ class Maze extends Component {
 
   handleKeyPress(evt) {
     if (~['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].indexOf(evt.key)) {
-      this.props.move(evt.key);
+      this.props.move(evt.key.substr(5).toLowerCase());
     }
   }
 
