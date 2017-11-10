@@ -29,8 +29,13 @@ module.exports = {
         loaders: [
           'style-loader',
           'css-loader?sourceMap',
+          'resolve-url-loader',
           'sass-loader?sourceMap',
         ],
+      },
+      {
+        test: /\.png$/,
+        loader: 'file-loader',
       },
     ],
   },

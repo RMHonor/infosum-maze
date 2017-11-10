@@ -6,4 +6,8 @@
   &--wall {
     background-color: red;
   }
+
+  &--player {
+    background: no-repeat center url('../../assets/img/player.png');
+  }
 }
