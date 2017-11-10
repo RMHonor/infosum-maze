@@ -1,11 +1,33 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import move from '../../actions/move';
 import Tile from '../tile/tile';
 
 import './maze.scss';
 
 class Maze extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+
+  componentWillMount() {
+    document.addEventListener('keydown', this.handleKeyPress);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.handleKeyPress)
+  }
+
+  handleKeyPress(evt) {
+    if (~['ArrowUp', 'ArrowDown', 'ArrowRight', 'ArrowLeft'].indexOf(evt.key)) {
+      this.props.move(evt.key);
+    }
+  }
+
   render() {
     return (
       this.props.maze.map((row, i) => (
@@ -23,4 +45,10 @@ function mapStateToProps({ maze }) {
   };
 }
 
-export default connect(mapStateToProps)(Maze);
+function mapDispatchToProps(dispatch) {
+  return {
+    move: (direction) => dispatch(move(direction)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Maze);
