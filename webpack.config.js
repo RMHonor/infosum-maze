@@ -21,7 +21,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loaders: ['babel-loader?sourceMap'],
+        loader: 'babel-loader?sourceMap',
       },
       // {
       //   test: /\.scss$/,
