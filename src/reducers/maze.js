@@ -1,12 +1,23 @@
 import { MOVE } from '../actions/move';
+import { CHANGE_MAZE } from '../actions/change-maze';
 
-import defaultMaze from '../assets/maze/defaultMaze.json'
+import defaultMaze from '../assets/maze/defaultMaze.json';
+import boxMaze from '../assets/maze/boxMaze.json';
 
 export default function (state = placePlayer(defaultMaze.maze), action) {
   switch (action.type) {
     case MOVE:
       const playerCoords = getCharacterLocation(state);
       return updateMaze(state, playerCoords, action.payload);
+
+    case CHANGE_MAZE:
+      switch(action.payload) {
+        case 'boxMaze':
+          return boxMaze.maze;
+        default:
+          return placePlayer(defaultMaze.maze);
+      }
+
     default:
       return state;
   }
@@ -60,9 +71,11 @@ function placePlayer(maze) {
     return maze;
   }
 
+  const res = copyMaze(maze);
+
   const spaces = [];
   
-  maze.forEach((row, i) => {
+  res.forEach((row, i) => {
     row.forEach((tile, j) => {
       if (tile === ' ')
         spaces.push({ x: i, y: j });
@@ -70,7 +83,7 @@ function placePlayer(maze) {
   });
 
   const randomTile = spaces[Math.floor(Math.random() * spaces.length)];
-  maze[randomTile.x][randomTile.y] = 'P';
+  res[randomTile.x][randomTile.y] = 'P';
 
-  return maze;
+  return res;
 }
