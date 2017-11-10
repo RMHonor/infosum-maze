@@ -29,7 +29,7 @@ class Maze extends Component {
   }
 
   render() {
-    if (this.props.maze === 'Victory!') return <h2>Victory!</h2>;
+    if (this.props.maze === 'Victory!') return <h2 class="victory">Victory!</h2>;
     if (!this.props.maze.length) return null;
 
     return (

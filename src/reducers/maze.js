@@ -24,11 +24,11 @@ export default function (state = placePlayer(defaultMaze.maze), action) {
 }
 
 function getCharacterLocation(mazeState) {
-  const x = mazeState.findIndex(row => ~row.indexOf('P'));
+  const x = mazeState.findIndex(row => ~row.indexOf('P') || ~row.indexOf('O'));
   //if no player
   if (!~x) return null;
 
-  const y = mazeState[x].findIndex(col => ~col.indexOf('P'));
+  const y = mazeState[x].findIndex(col => ~col.indexOf('P') || ~col.indexOf('O'));
 
   return { x, y };
 }
@@ -50,24 +50,52 @@ function updateMaze(state, playerCoords, direction) {
 
 function movePlayer(state, currentCoords, xDiff, yDiff){
   const newState = copyMaze(state);
+  const underTile = state[currentCoords.x][currentCoords.y] === 'P' ? ' ' : 'T'; //get tile type under player
 
+
+  //Tile types: T - target, B - box, D - box on target, X - exit, P - player, O - player on target
   switch (state[currentCoords.x + xDiff][currentCoords.y + yDiff]){
     case 'X': //exit
-      return 'Victory!';
-    case ' ': //free space
-      newState[currentCoords.x][currentCoords.y] = ' ';
+      if (allBoxesComplete(state))
+        return 'Victory!';
+      break;
+    case ' ':
+      newState[currentCoords.x][currentCoords.y] = underTile;
       newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'P';
-      return newState;
-    case 'B': //box square
+      break;
+    case 'T': //free space
+      newState[currentCoords.x][currentCoords.y] = underTile;
+      newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'O';
+      break;
+    case 'B':
       if (newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] === ' '){
         newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] = 'B';
-        newState[currentCoords.x][currentCoords.y] = ' ';
         newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'P';
-        return newState;
+        newState[currentCoords.x][currentCoords.y] = underTile;
+      } else if (newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] === 'T') {
+        newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] = 'D';
+        newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'P';
+        newState[currentCoords.x][currentCoords.y] = underTile;
       }
+      break;
+    case 'D':
+      if (newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] === ' '){
+        newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] = 'B';
+        newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'O';
+        newState[currentCoords.x][currentCoords.y] = underTile;
+      } else if (newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] === 'T') {
+        newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] = 'D';
+        newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'O';
+        newState[currentCoords.x][currentCoords.y] = underTile;
+      }
+      break;
   }
 
   return newState;
+}
+
+function allBoxesComplete(state) {
+  return !~state.findIndex(row => ~row.indexOf('T')); //no target squares left
 }
 
 function copyMaze(state) {

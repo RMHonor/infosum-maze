@@ -6,12 +6,10 @@
   @media (min-width: 768px){
     height: 20px;
     width: 20px;
-    background-size: 18px 20px;
   }
   @media (min-width: 991px){
     height: 25px;
     width: 25px;
-    background-size: 21px 25px;
   }
 
   display: inline-block;
@@ -26,11 +24,28 @@
     background-color: yellow;
   }
 
-  &--player {
+  &--target, &--player-on-target {
+    background-color: #ffa1d1;
+  }
+
+  &--player, &--player-on-target {
+
+    @media (min-width: 768px){
+      background-size: 18px 20px;
+    }
+    @media (min-width: 991px) {
+      background-size: 21px 25px;
+    }
     background-image: url('../../assets/img/player.png');
   }
 
   &--box {
+    background-size: 100%;
     background-image: url('../../assets/img/box.png');
+  }
+
+  &--completed-box {
+    background-size: 100%;
+    background-image: url('../../assets/img/completed-box.png');
   }
 }

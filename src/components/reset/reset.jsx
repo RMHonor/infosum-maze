@@ -5,7 +5,7 @@ import changeMaze from '../../actions/change-maze';
 
 import './reset.scss';
 
-const Reset = props => console.log(props) || (
+const Reset = props => (
   <button className="reset-button" onClick={() => props.reset(props.selectedMaze)}>Reset</button>
 );
 
