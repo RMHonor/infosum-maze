@@ -5,13 +5,13 @@ import './tile.scss';
 export default (props) => {
   let tileClass = 'tile';
   switch (props.type){
-    case 'X':
+    case 'P':
       tileClass += ' tile--player';
       break;
     case '#':
       tileClass += ' tile--wall';
       break;
-    case 'W':
+    case 'X':
       tileClass += ' tile--exit';
       break;
     case ' ':

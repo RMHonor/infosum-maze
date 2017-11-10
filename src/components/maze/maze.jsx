@@ -29,6 +29,9 @@ class Maze extends Component {
   }
 
   render() {
+    if (this.props.maze === 'Victory!') return <h2>Victory!</h2>;
+    if (!this.props.maze.length) return null;
+
     return (
       this.props.maze.map((row, i) => (
         <div key={i} className='maze-row'>
@@ -40,9 +43,7 @@ class Maze extends Component {
 }
 
 function mapStateToProps({ maze }) {
-  return {
-    maze,
-  };
+  return { maze };
 }
 
 function mapDispatchToProps(dispatch) {
