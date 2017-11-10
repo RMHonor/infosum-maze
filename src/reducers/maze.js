@@ -36,27 +36,35 @@ function getCharacterLocation(mazeState) {
 function updateMaze(state, playerCoords, direction) {
   switch (direction) {
     case 'up':
-      return movePlayer(state, playerCoords, { x: playerCoords.x - 1, y: playerCoords.y });
+      return movePlayer(state, playerCoords, -1, 0);
     case 'down':
-      return movePlayer(state, playerCoords, { x: playerCoords.x + 1, y: playerCoords.y });
+      return movePlayer(state, playerCoords, 1, 0);
     case 'right':
-      return movePlayer(state, playerCoords, { x: playerCoords.x, y: playerCoords.y + 1 });
+      return movePlayer(state, playerCoords, 0, 1);
     case 'left':
-      return movePlayer(state, playerCoords, { x: playerCoords.x, y: playerCoords.y - 1 });
+      return movePlayer(state, playerCoords, 0, -1);
   }
 
   return res;
 }
 
-function movePlayer(state, currentCoords, targetCoords){
+function movePlayer(state, currentCoords, xDiff, yDiff){
   const newState = copyMaze(state);
 
-  if (state[targetCoords.x][targetCoords.y] === 'X')
-    return 'Victory!';
-
-  if (state[targetCoords.x][targetCoords.y] === ' ') {
-    newState[currentCoords.x][currentCoords.y] = ' ';
-    newState[targetCoords.x][targetCoords.y] = 'P';
+  switch (state[currentCoords.x + xDiff][currentCoords.y + yDiff]){
+    case 'X':
+      return 'Victory!';
+    case ' ':
+      newState[currentCoords.x][currentCoords.y] = ' ';
+      newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'P';
+      return newState;
+    case 'B':
+      if (newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] === ' '){
+        newState[currentCoords.x + (xDiff * 2)][currentCoords.y + (yDiff * 2)] = 'B';
+        newState[currentCoords.x][currentCoords.y] = ' ';
+        newState[currentCoords.x + xDiff][currentCoords.y + yDiff] = 'P';
+        return newState;
+      }
   }
 
   return newState;

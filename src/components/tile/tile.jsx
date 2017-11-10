@@ -11,6 +11,9 @@ export default (props) => {
     case '#':
       tileClass += ' tile--wall';
       break;
+    case 'B':
+      tileClass += ' tile--box';
+      break;
     case 'X':
       tileClass += ' tile--exit';
       break;
